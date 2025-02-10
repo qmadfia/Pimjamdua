@@ -1,80 +1,48 @@
-let currentUser = null;
-const scriptUrl = "URL_GOOGLE_APPS_SCRIPT"; // Ganti dengan URL Web App Anda
-
-function login() {
-    const nama = document.getElementById('nama').value;
-    const password = document.getElementById('password').value;
-
-    fetch(`${scriptUrl}?nama=${nama}&password=${password}`)
-        .then(response => response.text())
-        .then(data => {
-            if (data !== "Gagal") {
-                currentUser = JSON.parse(data);
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('scan-section').style.display = 'block';
-            } else {
-                alert('Login gagal!');
-            }
-        });
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-function register() {
-    const nama = document.getElementById('nama').value;
-    const password = document.getElementById('password').value;
-    const bagian = document.getElementById('bagian').value;
-
-    const data = { nama, password, bagian, sheetName: "Users" };
-    fetch(scriptUrl, {
-        method: 'POST',
-        body: JSON.stringify(data)
-    }).then(response => response.text())
-      .then(data => alert(data));
+#loginPage, #scanPage {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-function startScan() {
-    const video = document.getElementById('qr-video');
-    const scanResult = document.getElementById('scan-result');
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(function(stream) {
-            video.srcObject = stream;
-            video.setAttribute("playsinline", true);
-            video.play();
-            requestAnimationFrame(tick);
-        });
-
-    function tick() {
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-            if (code) {
-                scanResult.innerText = `Buku Sample: ${code.data}`;
-                saveToSpreadsheet(code.data);
-            }
-        }
-        requestAnimationFrame(tick);
-    }
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-function saveToSpreadsheet(styleNumber) {
-    if (!currentUser) return;
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-    const data = {
-        nama: currentUser[0],
-        bagian: currentUser[2],
-        styleNumber: styleNumber,
-        sheetName: "Peminjaman"
-    };
+button:hover {
+    background-color: #218838;
+}
 
-    fetch(scriptUrl, {
-        method: 'POST',
-        body: JSON.stringify(data)
-    }).then(response => response.text())
-      .then(data => alert(data));
+#scanResult {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
 }
