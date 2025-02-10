@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peminjaman Buku Sample</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-section">
+        <h2>Login</h2>
+        <input type="text" id="nama" placeholder="Nama">
+        <input type="password" id="password" placeholder="Password">
+        <input type="text" id="bagian" placeholder="Bagian">
+        <button onclick="login()">Login</button>
+        <button onclick="register()">Register</button>
+    </div>
+    <div id="scan-section" style="display:none;">
+        <h2>Scan QR Code</h2>
+        <video id="qr-video" width="300" height="200"></video>
+        <button onclick="startScan()">Start Scan</button>
+        <p id="scan-result"></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
