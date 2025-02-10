@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peminjaman Buku Sample</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Aplikasi Peminjaman Buku Sample</title>
 </head>
 <body>
-    <div id="login-section">
+    <!-- Halaman Login -->
+    <div id="loginPage">
         <h2>Login</h2>
         <input type="text" id="nama" placeholder="Nama">
         <input type="password" id="password" placeholder="Password">
         <input type="text" id="bagian" placeholder="Bagian">
-        <button onclick="login()">Login</button>
-        <button onclick="register()">Register</button>
+        <button id="loginBtn">Login</button>
     </div>
-    <div id="scan-section" style="display:none;">
+
+    <!-- Halaman Scan QR Code -->
+    <div id="scanPage" style="display: none;">
         <h2>Scan QR Code</h2>
-        <video id="qr-video" width="300" height="200"></video>
-        <button onclick="startScan()">Start Scan</button>
-        <p id="scan-result"></p>
+        <video id="qrScanner" width="300" height="300"></video>
+        <p id="scanResult">Hasil scan akan muncul di sini</p>
+        <button id="logoutBtn">Logout</button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
