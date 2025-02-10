@@ -26,6 +26,7 @@ input {
 }
 
 button {
+    display: block;
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -40,6 +41,7 @@ button {
 button:hover {
     background-color: #218838;
 }
+
 
 #scanResult {
     font-size: 18px;
