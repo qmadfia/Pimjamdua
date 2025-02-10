@@ -4,28 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Peminjaman Buku Sample</title>
-    <script>
-        // Menangani klik tombol login
-        function handleLogin() {
-            const nama = document.getElementById("nama").value;
-            const password = document.getElementById("password").value;
-            const bagian = document.getElementById("bagian").value;
-            
-            // Mengecek apakah semua input sudah diisi
-            if (nama && password && bagian) {
-                document.getElementById("loginPage").style.display = "none";
-                document.getElementById("scanPage").style.display = "block";
-            } else {
-                alert("Harap isi semua kolom!");
-            }
-        }
-        
-        // Event listener untuk login
-        document.getElementById("loginBtn").addEventListener("click", handleLogin);
-    </script>
+    <link rel="stylesheet" href="style.css"> <!-- Pastikan path benar -->
 </head>
 <body>
-    <!-- Halaman Login -->
     <div id="loginPage">
         <h2>Login</h2>
         <input type="text" id="nama" placeholder="Nama">
@@ -33,13 +14,14 @@
         <input type="text" id="bagian" placeholder="Bagian">
         <button id="loginBtn">Login</button>
     </div>
-
-    <!-- Halaman Scan QR Code -->
+    
     <div id="scanPage" style="display: none;">
         <h2>Scan QR Code</h2>
         <video id="qrScanner" width="300" height="300"></video>
         <p id="scanResult">Hasil scan akan muncul di sini</p>
         <button id="logoutBtn">Logout</button>
     </div>
+    
+    <script src="script.js"></script> <!-- Pastikan path benar -->
 </body>
 </html>
