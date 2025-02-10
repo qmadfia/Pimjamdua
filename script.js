@@ -1,23 +1,34 @@
 let currentUser = null;
+const scriptUrl = "URL_GOOGLE_APPS_SCRIPT"; // Ganti dengan URL Web App Anda
 
 function login() {
     const nama = document.getElementById('nama').value;
     const password = document.getElementById('password').value;
-    const bagian = document.getElementById('bagian').value;
 
-    // Simulasi login sederhana
-    if (nama && password && bagian) {
-        currentUser = { nama, bagian };
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('scan-section').style.display = 'block';
-    } else {
-        alert('Isi semua field!');
-    }
+    fetch(`${scriptUrl}?nama=${nama}&password=${password}`)
+        .then(response => response.text())
+        .then(data => {
+            if (data !== "Gagal") {
+                currentUser = JSON.parse(data);
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('scan-section').style.display = 'block';
+            } else {
+                alert('Login gagal!');
+            }
+        });
 }
 
 function register() {
-    // Simulasi register sederhana
-    alert('Register berhasil! Silakan login.');
+    const nama = document.getElementById('nama').value;
+    const password = document.getElementById('password').value;
+    const bagian = document.getElementById('bagian').value;
+
+    const data = { nama, password, bagian, sheetName: "Users" };
+    fetch(scriptUrl, {
+        method: 'POST',
+        body: JSON.stringify(data)
+    }).then(response => response.text())
+      .then(data => alert(data));
 }
 
 function startScan() {
@@ -55,13 +66,15 @@ function saveToSpreadsheet(styleNumber) {
     if (!currentUser) return;
 
     const data = {
-        nama: currentUser.nama,
-        bagian: currentUser.bagian,
+        nama: currentUser[0],
+        bagian: currentUser[2],
         styleNumber: styleNumber,
-        tanggal: new Date().toLocaleString()
+        sheetName: "Peminjaman"
     };
 
-    // Simulasi pengiriman data ke spreadsheet
-    console.log('Data dikirim ke spreadsheet:', data);
-    alert('Peminjaman berhasil!');
+    fetch(scriptUrl, {
+        method: 'POST',
+        body: JSON.stringify(data)
+    }).then(response => response.text())
+      .then(data => alert(data));
 }
