@@ -1,47 +1,52 @@
-import QrScanner from "https://unpkg.com/qr-scanner@1.4.2/qr-scanner.min.js";
+document.addEventListener("DOMContentLoaded", () => {
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const video = document.getElementById("qrScanner");
+    let scanner = null;
 
-// Menangani klik tombol login
-function handleLogin() {
-    const nama = document.getElementById("nama").value;
-    const password = document.getElementById("password").value;
-    const bagian = document.getElementById("bagian").value;
-    
-    if (nama && password && bagian) {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("scanPage").style.display = "block";
-        startScanner(); // Mulai pemindaian QR setelah login
-    } else {
-        alert("Harap isi semua kolom!");
+    // Fungsi untuk menangani login
+    function handleLogin() {
+        const nama = document.getElementById("nama").value;
+        const password = document.getElementById("password").value;
+        const bagian = document.getElementById("bagian").value;
+
+        if (nama && password && bagian) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("scanPage").style.display = "block";
+            startScanner();
+        } else {
+            alert("Harap isi semua kolom!");
+        }
     }
-}
 
-// Menangani logout
-function handleLogout() {
-    document.getElementById("scanPage").style.display = "none";
-    document.getElementById("loginPage").style.display = "block";
-    stopScanner();
-}
-
-// Menyiapkan scanner QR
-const video = document.getElementById("qrScanner");
-let scanner;
-
-function startScanner() {
-    scanner = new QrScanner(video, (result) => {
-        document.getElementById("scanResult").innerText = `Kode QR: ${result}`;
-        console.log("QR Code Scanned:", result);
-    });
-
-    scanner.start();
-}
-
-// Menghentikan scanner jika logout
-function stopScanner() {
-    if (scanner) {
-        scanner.stop();
+    // Fungsi untuk logout
+    function handleLogout() {
+        document.getElementById("scanPage").style.display = "none";
+        document.getElementById("loginPage").style.display = "block";
+        stopScanner();
     }
-}
 
-// Event Listener
-document.getElementById("loginBtn").addEventListener("click", handleLogin);
-document.getElementById("logoutBtn").addEventListener("click", handleLogout);
+    // Fungsi untuk memulai scan QR Code
+    function startScanner() {
+        scanner = new QrScanner(video, (result) => {
+            document.getElementById("scanResult").innerText = `Kode QR: ${result}`;
+            console.log("QR Code Scanned:", result);
+        });
+
+        scanner.start().catch(err => {
+            console.error("Error mengakses kamera:", err);
+            alert("Tidak dapat mengakses kamera. Periksa izin browser!");
+        });
+    }
+
+    // Fungsi untuk menghentikan scanner
+    function stopScanner() {
+        if (scanner) {
+            scanner.stop();
+        }
+    }
+
+    // Event Listener
+    loginBtn.addEventListener("click", handleLogin);
+    logoutBtn.addEventListener("click", handleLogout);
+});
